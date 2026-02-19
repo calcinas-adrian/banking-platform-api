@@ -2,9 +2,6 @@ package com.uab.taller.store.controller.advice;
 
 import com.uab.taller.store.exception.EntityDeletionException;
 import com.uab.taller.store.exception.EntityNotFoundException;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
@@ -22,7 +19,6 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 public class UserControllerAdvice {
 
-    @Schema(description = "Respuesta de error estándar")
     public static class ErrorResponse {
         private LocalDateTime timestamp;
         private int status;
@@ -95,7 +91,6 @@ public class UserControllerAdvice {
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
-    @ApiResponse(responseCode = "404", description = "Entidad no encontrada", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     public ResponseEntity<ErrorResponse> handleEntityNotFoundException(EntityNotFoundException ex) {
         ErrorResponse error = new ErrorResponse(
                 HttpStatus.NOT_FOUND.value(),
@@ -106,7 +101,6 @@ public class UserControllerAdvice {
     }
 
     @ExceptionHandler(EntityDeletionException.class)
-    @ApiResponse(responseCode = "409", description = "Conflicto al eliminar entidad", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     public ResponseEntity<ErrorResponse> handleEntityDeletionException(EntityDeletionException ex) {
         ErrorResponse error = new ErrorResponse(
                 HttpStatus.CONFLICT.value(),
@@ -117,7 +111,6 @@ public class UserControllerAdvice {
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    @ApiResponse(responseCode = "400", description = "Argumentos inválidos", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     public ResponseEntity<ErrorResponse> handleIllegalArgumentException(IllegalArgumentException ex) {
         ErrorResponse error = new ErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
@@ -128,7 +121,6 @@ public class UserControllerAdvice {
     }
 
     @ExceptionHandler(IllegalStateException.class)
-    @ApiResponse(responseCode = "403", description = "Estado inválido para la operación", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     public ResponseEntity<ErrorResponse> handleIllegalStateException(IllegalStateException ex) {
         ErrorResponse error = new ErrorResponse(
                 HttpStatus.FORBIDDEN.value(),
@@ -139,7 +131,6 @@ public class UserControllerAdvice {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ApiResponse(responseCode = "400", description = "Error de validación de datos", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     public ResponseEntity<ErrorResponse> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, String> validationErrors = new HashMap<>();
 
@@ -160,7 +151,6 @@ public class UserControllerAdvice {
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    @ApiResponse(responseCode = "400", description = "Error de validación de restricciones", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     public ResponseEntity<ErrorResponse> handleConstraintViolationException(ConstraintViolationException ex) {
         Map<String, String> validationErrors = ex.getConstraintViolations()
                 .stream()
@@ -179,7 +169,6 @@ public class UserControllerAdvice {
     }
 
     @ExceptionHandler(Exception.class)
-    @ApiResponse(responseCode = "500", description = "Error interno del servidor", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     public ResponseEntity<ErrorResponse> handleGenericException(Exception ex) {
         ErrorResponse error = new ErrorResponse(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
