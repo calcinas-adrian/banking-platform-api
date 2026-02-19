@@ -2,12 +2,14 @@ package com.uab.taller.store.usecase.user;
 
 import com.uab.taller.store.domain.Account;
 import com.uab.taller.store.domain.Profile;
+import com.uab.taller.store.domain.Rol;
 import com.uab.taller.store.domain.User;
 import com.uab.taller.store.domain.dto.request.CreateUserRequest;
 import com.uab.taller.store.domain.dto.response.UserResponse;
 import com.uab.taller.store.service.interfaces.IAccountService;
 import com.uab.taller.store.service.interfaces.IProfileService;
 import com.uab.taller.store.service.interfaces.IUserService;
+import com.uab.taller.store.repository.RolRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +30,9 @@ public class CreateUserUseCase {
 
     @Autowired
     private IAccountService accountService;
+
+    @Autowired
+    private RolRepository rolRepository;
 
     @Autowired
     private UserMappingUseCase userMappingUseCase;
@@ -94,10 +99,14 @@ public class CreateUserUseCase {
         user.setEmail(request.getEmail().trim());
         user.setPassword(request.getPassword()); // En producción debería estar hasheada
         user.setProfile(profile);
-        user.setAccounts(new ArrayList<>());
-
-        // Asignar rol por defecto (debería obtenerse de la base de datos)
-        // user.setRol(defaultRol);
+        user.setAccounts(new ArrayList<>()); // Asignar rol por defecto "USER"
+        try {
+            Rol defaultRol = rolRepository.findByNameIgnoreCase("USER")
+                    .orElseThrow(() -> new IllegalStateException("No se pudo encontrar el rol por defecto 'USER'"));
+            user.setRol(defaultRol);
+        } catch (Exception e) {
+            throw new IllegalStateException("Error al asignar rol por defecto: " + e.getMessage(), e);
+        }
 
         return user;
     }

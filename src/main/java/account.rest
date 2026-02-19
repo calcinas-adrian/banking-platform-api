@@ -193,8 +193,8 @@ PUT {{baseUrl}}/account
 Content-Type: application/json
 
 {
-    "id": 1,
-    "status": "INVALID_STATUS"
+    "id": 5,
+    "status": "SUSPENDED"
 }
 
 ### 34. Intentar operaciones con cuenta cerrada
