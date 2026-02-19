@@ -1,0 +1,16 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="StoreApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="false">
+    <option name="ACTIVE_PROFILES" />
+    <module name="store" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.uab.taller.store.StoreApplication" />
+    <option name="ALTERNATIVE_JRE_PATH" />
+    <option name="SHORTEN_COMMAND_LINE" value="NONE" />
+    <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+    <envs>
+      <env name="SPRING_OUTPUT_ANSI_ENABLED" value="ALWAYS" />
+    </envs>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
