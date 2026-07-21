@@ -1,0 +1,14 @@
+.git
+.gitignore
+.idea
+.run
+.vscode
+.mvn/**/wrapper/*.zip
+dbdata
+target
+build
+*.log
+*.iml
+*.rest
+README.md
+docker-compose.yml
